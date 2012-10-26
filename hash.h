@@ -5,9 +5,12 @@
 #include <pthread.h>
 #include <string.h>
 #include <errno.h>
+#include "list.h"
 
 typedef struct {
-
+	struct list_t **buckets;
+	int size;
+	pthread_mutex_t globalLock;
 } hashtable_t;
 
 // create a new hashtable; parameter is a size hint
