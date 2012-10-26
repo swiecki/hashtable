@@ -16,6 +16,9 @@ typedef struct {
 // create a new hashtable; parameter is a size hint
 hashtable_t *hashtable_new(int);
 
+//Calculate the number of buckets for the hashtable
+int hashtable_size_calculator(int);
+
 // free anything allocated by the hashtable library
 void hashtable_free(hashtable_t *);
 
