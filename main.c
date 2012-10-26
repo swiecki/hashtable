@@ -7,7 +7,7 @@
 #include <time.h>
 #include <string.h>
 #include "hash.h"
-
+#include "list.h"
 
 struct args {
     hashtable_t *hash;
