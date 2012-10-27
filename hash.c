@@ -19,9 +19,11 @@ hashtable_t *hashtable_new(int sizehint) {
 	}
 	//Initialize the table's lock
 	pthread_mutex_init(&table->globalLock, NULL);
+	//Return the table
      	return table;
 }
 int hashtable_size_calculator(int sizehint){
+	//Round up to the next biggest prime number.
 	if(sizehint < 17){
 		return 17;
 	}
@@ -57,7 +59,7 @@ int hashtable_size_calculator(int sizehint){
 	}
 	else if (sizehint < 1069){
 		return 1069;
-	} else {
+	} else {//Since we got tired of typing primes and didn't want to make this a prime generator.
 		return sizehint;
 	}
 }
@@ -65,21 +67,24 @@ int hashtable_size_calculator(int sizehint){
 void hashtable_free(hashtable_t *hashtable) {
 	int i = 0;
 	for(;i<=(hashtable->size);i++){
+		//Clear each list in buckets.
 		list_clear((list_t*)hashtable->buckets[i]);
+		//Free each list in buckets.
 		free(hashtable->buckets[i]);
 	}
+	//Free buckets and then the table itself. 
 	free(hashtable->buckets);
 	free(hashtable);
 }
 
 // add a new string to the hashtable
 void hashtable_add(hashtable_t *hashtable, const char *s) {
-	pthread_mutex_lock(&hashtable->globalLock);
+	//Get the key from our hash function.
 	int key = hash(s);
+	//Modulo it to correspond to the number of buckets. Is modulo a verb? Whatever, it is now.
 	key = key % (hashtable->size);
 	//put the string into the bucket
 	list_add((list_t *)hashtable->buckets[key], s);
-	pthread_mutex_unlock(&hashtable->globalLock);
 }
 
 int hash(const char *s){
@@ -88,7 +93,7 @@ int hash(const char *s){
   	while (*s) {
     	key = key*37 + *s++;
   	}
-		if(key < 0){
+		if(key < 0){//We were getting wraparound and didn't want wraparound. The only thing that should wrap around is a ribbon on a present. 
 			key = key * -1;
 		}
 	return key;
@@ -96,17 +101,17 @@ int hash(const char *s){
 // remove a string from the hashtable; if the string
 // doesn't exist in the hashtable, do nothing
 void hashtable_remove(hashtable_t *hashtable, const char *s) {
-	pthread_mutex_lock(&hashtable->globalLock);
+	//Retrieve the key and then remove it from the list.
 	int key = hash(s);
 	key = key % (hashtable->size);
 	list_remove((list_t *)hashtable->buckets[key],s);
-	pthread_mutex_unlock(&hashtable->globalLock);
 }
 
 // print the contents of the hashtable
 void hashtable_print(hashtable_t *hashtable) {
 	int i = 0;
 	for(;i<hashtable->size;i++){
+		//Dump the contents of each list.
 		list_print((list_t *)hashtable->buckets[i]);
 	}
 }
