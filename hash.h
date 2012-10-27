@@ -25,6 +25,9 @@ void hashtable_free(hashtable_t *);
 // add a new string to the hashtable
 void hashtable_add(hashtable_t *, const char *);
 
+//Generates a key for a string
+int hash(const char *);
+
 // remove a string from the hashtable; if the string
 // doesn't exist in the hashtable, do nothing
 void hashtable_remove(hashtable_t *, const char *);
