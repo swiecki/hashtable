@@ -64,7 +64,7 @@ int hashtable_size_calculator(int sizehint){
 // free anything allocated by the hashtable library
 void hashtable_free(hashtable_t *hashtable) {
 	int i = 0;
-	for(;i<(hashtable->size);i++){
+	for(;i<=(hashtable->size);i++){
 		list_clear((list_t*)hashtable->buckets[i]);
 		free(hashtable->buckets[i]);
 	}
