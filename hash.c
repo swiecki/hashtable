@@ -1,10 +1,25 @@
 #include "hash.h"
+#include "list.c"
 
 
 // create a new hashtable; parameter is a size hint
 hashtable_t *hashtable_new(int sizehint) {
-    int size = hashtable_size_calculator(sizehint);
-		return NULL;
+	int size = hashtable_size_calculator(sizehint);
+	//Allocate the table itself
+	hashtable_t *table = malloc(sizeof(hashtable_t));
+	//Set the table's attributes
+	table->size = size;
+	//Set up an array of bucket pointers and null-terminate
+	table->buckets = malloc(sizeof(list_t*)*(size+1));
+	table->buckets[size] = NULL;
+	int i = 0;
+	for(;i<size;i++){
+		table->buckets[i] = malloc(sizeof(list_t));
+		list_init((list_t*)table->buckets[i]);
+	}
+	//Initialize the table's lock
+	pthread_mutex_init(&table->globalLock, NULL);
+     	return table;
 }
 int hashtable_size_calculator(int sizehint){
 	if(sizehint < 37){
