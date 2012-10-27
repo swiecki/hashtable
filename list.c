@@ -57,16 +57,17 @@ void list_remove(list_t *list, const char *target) {
 		while(tmp != NULL && strcmp(tmp->data, target) == 0){
 			list->head = tmp->next;
 			//free those nodes
-			//TODO
+			struct __list_node *tmp2 = tmp;
+			free(tmp2);
 			tmp = list->head;
 		}
 		//take care of everything else
     while (tmp != NULL && tmp->next != NULL) {
 				if(strcmp(tmp->next->data, target) == 0){
-					free(tmp->next->data);
+					struct __list_node *tmp2 = tmp->next;
 					tmp->next = tmp->next->next;
 					//free node
-					//TODO
+					free(tmp2);
 				}else{
 		     	tmp = tmp->next;
 				}
