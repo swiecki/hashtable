@@ -13,12 +13,12 @@ void list_init(list_t *list) {
 /* ************************************** 
  * print the contents of the list to file f.
  * ************************************** */
-void list_print(list_t *list, FILE *f) {
+void list_print(list_t *list) {
 		pthread_mutex_lock(&list->lock);
     printf("*** List Contents Begin ***\n");
     struct __list_node *tmp = list->head;
     while (tmp) {
-        fprintf(f, "%s\n", tmp->data);
+        printf("%s\n", tmp->data);
         tmp = tmp->next;
     }
     printf("*** List Contents End ***\n");
