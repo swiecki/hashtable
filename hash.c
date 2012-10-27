@@ -13,7 +13,7 @@ hashtable_t *hashtable_new(int sizehint) {
 	table->buckets = malloc(sizeof(list_t*)*(size+1));
 	table->buckets[size] = NULL;
 	int i = 0;
-	for(;i<size;i++){
+	for(;i<=size;i++){
 		table->buckets[i] = malloc(sizeof(list_t));
 		list_init((list_t*)table->buckets[i]);
 	}
@@ -22,8 +22,14 @@ hashtable_t *hashtable_new(int sizehint) {
      	return table;
 }
 int hashtable_size_calculator(int sizehint){
-	if(sizehint < 37){
-		return 37;
+	if(sizehint < 17){
+		return 17;
+	}
+	else if (sizehint < 31){
+		return 31;
+	}
+	else if (sizehint < 53){
+		return 53;
 	}
 	else if (sizehint < 71){
 		return 71;
@@ -64,7 +70,7 @@ void hashtable_free(hashtable_t *hashtable) {
 void hashtable_add(hashtable_t *hashtable, const char *s) {
 	pthread_mutex_lock(&hashtable->globalLock);
 	int key = hash(s);
-	key = key % hashtable->size;
+	key = key % (hashtable->size);
 	//put the string into the bucket
 	list_add((list_t *)hashtable->buckets[key], s);
 	pthread_mutex_unlock(&hashtable->globalLock);
@@ -76,6 +82,9 @@ int hash(const char *s){
   	while (*s) {
     	key = key*37 + *s++;
   	}
+		if(key < 0){
+			key = key * -1;
+		}
 	return key;
 }
 // remove a string from the hashtable; if the string
