@@ -28,7 +28,7 @@ void list_print(list_t *list) {
  * add item "val" to the list, in order.
  * ************************************** */
 void list_add(list_t *list, const char *val) {
-		//pthread_mutex_lock(&list->lock);
+		pthread_mutex_lock(&list->lock);
     struct __list_node *new_node = (struct __list_node *)malloc (sizeof(struct __list_node));
     if (!new_node) {
         fprintf(stderr, "No memory while attempting to create a new list node!\n");
@@ -39,7 +39,7 @@ void list_add(list_t *list, const char *val) {
 		//make new node new head
 		new_node->next = list->head;
     list->head = new_node;
-		//pthread_mutex_unlock(&list->lock);
+		pthread_mutex_unlock(&list->lock);
 }
 
 
