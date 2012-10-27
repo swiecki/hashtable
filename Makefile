@@ -5,7 +5,7 @@ TARGET = mthash
 # object files next
 OBJS = main.o hash.o
 # header files next
-DEPS = hash.h
+DEPS = hash.h list.h
 .PHONY : clean
 
 all: $(TARGET)

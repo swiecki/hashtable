@@ -90,7 +90,11 @@ int hash(const char *s){
 // remove a string from the hashtable; if the string
 // doesn't exist in the hashtable, do nothing
 void hashtable_remove(hashtable_t *hashtable, const char *s) {
-
+	pthread_mutex_lock(&hashtable->globalLock);
+	int key = hash(s);
+	key = key % (hashtable->size);
+	list_remove((list_t *)hashtable->buckets[key],s);
+	pthread_mutex_unlock(&hashtable->globalLock);
 }
 
 // print the contents of the hashtable
