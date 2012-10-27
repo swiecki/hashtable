@@ -29,28 +29,25 @@ void list_print(list_t *list, FILE *f) {
 /* ************************************** 
  * add item "val" to the list, in order.
  * ************************************** */
-void list_add(list_t *list, char *val) {
+void list_add(list_t *list, const char *val) {
 		pthread_mutex_lock(&list->lock);
     struct __list_node *new_node = (struct __list_node *)malloc (sizeof(struct __list_node));
     if (!new_node) {
         fprintf(stderr, "No memory while attempting to create a new list node!\n");
         abort();
     }
-
-    new_node->data = val;
-    new_node->next = list->head->next;
-
-    /* special case: list is currently empty */
-    if (list->head == NULL) {
-        list->head = new_node;
-    }
+		//assign data to new node
+    new_node->data = (char *)val;
+		//make new node new head
+		new_node->next = list->head;
+    list->head = new_node;
 		pthread_mutex_unlock(&list->lock);
 }
 
 
 /* ************************************** 
  * ************************************** */
-void list_remove(list_t *list, char *target) {
+void list_remove(list_t *list, const char *target) {
 		pthread_mutex_lock(&list->lock);
     /* short cut: is the list empty? */
     if (list->head == NULL){

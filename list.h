@@ -17,8 +17,8 @@ typedef struct {
 
 void list_init(list_t *);
 void list_clear(list_t *);
-void list_add(list_t *, char *);
-void list_remove(list_t *, char *);
+void list_add(list_t *, const char *);
+void list_remove(list_t *, const char *);
 void list_print(list_t *, FILE *);
 
 #endif // __LIST_H__

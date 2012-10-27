@@ -62,10 +62,12 @@ void hashtable_free(hashtable_t *hashtable) {
 
 // add a new string to the hashtable
 void hashtable_add(hashtable_t *hashtable, const char *s) {
+	pthread_mutex_lock(&hashtable->globalLock);
 	int key = hash(s);
 	key = key % hashtable->size;
 	//put the string into the bucket
 	list_add((list_t *)hashtable->buckets[key], s);
+	pthread_mutex_unlock(&hashtable->globalLock);
 }
 
 int hash(const char *s){
@@ -84,7 +86,10 @@ void hashtable_remove(hashtable_t *hashtable, const char *s) {
 
 // print the contents of the hashtable
 void hashtable_print(hashtable_t *hashtable) {
-
+	int i = 0;
+	for(;i<hashtable->size;i++){
+		list_print((list_t *)hashtable->buckets[i]);
+	}
 }
 
 
