@@ -110,10 +110,12 @@ void hashtable_remove(hashtable_t *hashtable, const char *s) {
 // print the contents of the hashtable
 void hashtable_print(hashtable_t *hashtable) {
 	int i = 0;
+	pthread_mutex_lock(&hashtable->globalLock);
 	for(;i<hashtable->size;i++){
 		//Dump the contents of each list.
 		list_print((list_t *)hashtable->buckets[i]);
 	}
+	pthread_mutex_unlock(&hashtable->globalLock);
 }
 
 
