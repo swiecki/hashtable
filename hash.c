@@ -93,7 +93,6 @@ void hashtable_remove(hashtable_t *hashtable, const char *s) {
 	pthread_mutex_lock(&hashtable->globalLock);
 	int key = hash(s);
 	key = key % (hashtable->size);
-	printf("key is %i\n", key);
 	list_remove((list_t *)hashtable->buckets[key],s);
 	pthread_mutex_unlock(&hashtable->globalLock);
 }
