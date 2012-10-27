@@ -40,8 +40,6 @@ void list_add(list_t *list, char *val) {
     new_node->data = val;
     new_node->next = list->head->next;
 
-    struct __list_node *tmp = list->head;
-
     /* special case: list is currently empty */
     if (list->head == NULL) {
         list->head = new_node;
