@@ -19,6 +19,6 @@ void list_init(list_t *);
 void list_clear(list_t *);
 void list_add(list_t *, char *);
 void list_remove(list_t *, char *);
-void list_print(list_t *, FILE *);
+void list_print(list_t *);
 
 #endif // __LIST_H__
