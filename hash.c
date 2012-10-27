@@ -62,17 +62,20 @@ void hashtable_free(hashtable_t *hashtable) {
 
 // add a new string to the hashtable
 void hashtable_add(hashtable_t *hashtable, const char *s) {
+	int key = hash(s);
+	key = key % hashtable->size;
+	//put the string into the bucket
+	list_add((list_t *)hashtable->buckets[key], s);
+}
 
+int hash(const char *s){
 	//generate a key for our array based off the string
 	int key = 0;
   	while (*s) {
     	key = key*37 + *s++;
   	}
-	key = key % hashtable->size;
-	//put the string into the bucket
-
+	return key;
 }
-
 // remove a string from the hashtable; if the string
 // doesn't exist in the hashtable, do nothing
 void hashtable_remove(hashtable_t *hashtable, const char *s) {
