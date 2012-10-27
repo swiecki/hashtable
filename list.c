@@ -48,20 +48,20 @@ void list_add(list_t *list, const char *val) {
 void list_remove(list_t *list, const char *target) {
 		pthread_mutex_lock(&list->lock);
     /* short cut: is the list empty? */
-    if (list->head == NULL){
-		pthread_mutex_unlock(&list->lock);
-        return;
-}
+    if (list == NULL || list->head == NULL){
+			pthread_mutex_unlock(&list->lock);
+      return;
+		}
     struct __list_node *tmp = list->head;
 		//take care of case where head is deleted
-		while(strcmp(tmp->data, target) == 0){
+		while(tmp != NULL && strcmp(tmp->data, target) == 0){
 			list->head = tmp->next;
 			//free those nodes
 			//TODO
 			tmp = list->head;
 		}
 		//take care of everything else
-    while (tmp->next != NULL) {
+    while (tmp != NULL && tmp->next != NULL) {
 				if(strcmp(tmp->next->data, target) == 0){
 					free(tmp->next->data);
 					tmp->next = tmp->next->next;
