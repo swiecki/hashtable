@@ -15,13 +15,11 @@ void list_init(list_t *list) {
  * ************************************** */
 void list_print(list_t *list) {
 		pthread_mutex_lock(&list->lock);
-    printf("*** List Contents Begin ***\n");
     struct __list_node *tmp = list->head;
     while (tmp) {
         printf("%s\n", tmp->data);
         tmp = tmp->next;
     }
-    printf("*** List Contents End ***\n");
 		pthread_mutex_unlock(&list->lock);
 }
 
